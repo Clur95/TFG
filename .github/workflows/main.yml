@@ -40,7 +40,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-pages-artifact@v1
         with: 
-          path: "."
+          path: "../web/"
 
       - name: deploy
         id: deployment
