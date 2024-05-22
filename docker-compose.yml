@@ -22,9 +22,9 @@ services:
             - persistent:/var/lib/mysql
         networks:
             - netapp
-        secrets:
-            - db_password
-            - db_root_password
+        #secrets:
+        #    - db_password
+        #    - db_root_password
         
     web:
         build: .
