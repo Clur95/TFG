@@ -11,8 +11,10 @@ services:
 
         environment:
             MYSQL_DATABASE: reservas
-            MYSQL_PASSWORD_FILE: /run/secrets/db_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+            MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            MYSQL_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+            #MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            #MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
         volumes:
             #- ./dump:/docker-entrypoint-initdb.d
             - ./dump/reservas.sql:/inicio/reservas.sql #/data/application/reservas.sql
@@ -43,11 +45,13 @@ services:
             - 8000:80
         environment:
             MYSQL_USER: root
-            MYSQL_PASSWORD_FILE: /run/secrets/db_password
-            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-        secrets:
-            - db_password
-            - db_root_password
+            MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            MYSQL_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+            #MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            #MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+#        secrets:
+#            - db_password
+#            - db_root_password
         networks:
             - netapp
     
@@ -64,11 +68,11 @@ services:
         networks:
             - netapp
             
-secrets:
-    db_password:
-        file: ./secrets/db_password.txt
-    db_root_password:
-        file: ./secrets/db_root_password.txt
+#secrets:
+#    db_password:
+#        file: ./secrets/db_password.txt
+#    db_root_password:
+#        file: ./secrets/db_root_password.txt
 
 volumes:
     persistent:

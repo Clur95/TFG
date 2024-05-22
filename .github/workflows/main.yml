@@ -8,3 +8,4 @@ jobs:
         uses: actions/checkout@v4
       - name: Construye la imagen
         run: docker compose up -d
+        
