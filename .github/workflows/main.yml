@@ -1,11 +1,40 @@
 name: Actions para Docker-Compose
+
 on: push
+
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Comprobador
         uses: actions/checkout@v4
+
       - name: Construye la imagen
         run: docker compose up -d
-        
+#################### Hasta aquí
+  deploy:
+
+    needs: build 
+    
+    environment:
+      name: production
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: checkout repo
+        uses: actions/checkout@v4
+      
+      - name: configure github pages
+        uses: actions/configure-pages@v3
+
+      - name: upload artifacts
+        uses: actions/upload-pages-artifact@v1
+        with: 
+          path: "../web"
+
+      - name: deploy
+        id: deployment
+        uses: actions/deploy-pages@v1
