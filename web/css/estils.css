@@ -1,0 +1,205 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    min-width: 470px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../img/fondo.png);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#container {
+
+    background-color: #303038;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+    color: #7cd9cb;
+    margin: 0 10%;
+}
+
+header #logo {
+
+    display: block;
+    margin: 0 auto;
+    width: 325px;
+    object-fit: contain;
+}
+
+main {
+    background-color: #44756e;
+    padding: 0.5% 0;
+    
+}
+
+nav {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    padding: 1%;
+}
+
+h2 {
+    margin-left: 1.5%;
+}
+
+nav div, .pulsado {
+
+    flex: 1;
+    font-weight: bold;
+    padding: 2%;
+    margin: 0 0.5%;
+}
+
+nav div {
+    
+    background-color: #303038;
+    border: 3px solid #bbbbdc;
+}
+
+.pulsado {
+
+    background-color: #70c6b9;
+    border: 3px solid #303038;
+    color: #303038;
+}
+
+.companias:hover, .botonesMenus:hover{
+
+    cursor: pointer;
+}
+
+nav div:hover, .btn-primary:active {
+
+    background-color: #70c6b9;
+    border-color: #303038;
+    color: #303038;
+}
+
+nav div:active, .btn-primary:active {
+
+    box-shadow: 0 15px 15px 0 #0000003d, 0 15px 50px 0 #00000030;
+    transform: translateY(2px);
+}
+
+p{
+    margin: 1%;
+    text-align: justify;
+}
+
+footer p{
+
+    text-align: center;
+}
+
+.btn-primary, .btn-secondary {
+    
+    background-color: #303038;
+    border: 3px solid #70c6b9;
+    color: #6ebeb2;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    
+    background-color: #70c6b9;
+    border: 3px solid #303038;
+    color: #303038;
+}
+
+.botonModal{
+
+    margin-left: 1.5%;
+}
+
+.modal-content{
+
+    background-color: #1d3430;
+    border: 3px solid black;
+    color: #6ebeb2; 
+}
+
+.invalid-feedback,
+.valid-feedback{
+
+    font-weight: bold;
+}
+
+.resultats{
+
+    text-align: center;
+}
+
+.volver{
+
+    display: block;
+    margin: 1% auto;
+}
+
+/* ESTILO DE LA TABLA */
+
+table {
+
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    color: #303038;
+    table-layout: fixed;
+    font-size: 0.9em;
+    width: 100%;
+}
+
+table td, table th {
+
+    border: 2px solid #7cd9cb;
+    padding: 8px;
+    overflow: hidden;
+    width: fit-content;
+    text-overflow: ellipsis;
+}
+
+table tr:nth-child(even){background-color: #e2dfdf;}
+table tr:nth-child(odd){background-color: #ffffff;}
+
+table th {
+
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #303038;
+    color: #7cd9cb;
+}
+
+@media only screen and (max-width: 659px) {
+
+    body{
+
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-width: 594px) {
+
+    body{
+
+        font-size: 0.7em;
+    }
+}
+
+@media only screen and (max-width: 1013px) {
+
+    .juegos, .botonesMenus{
+
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+}

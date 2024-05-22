@@ -1,0 +1,2 @@
+# Ignore los secrets, en este caso los txt
+/secrets

@@ -1,0 +1,78 @@
+version: "3.1"
+services:
+    db:
+        image: mysql
+        ports: 
+            - "3306:3306"
+        #command: --default-authentication-plugin=mysql_native_password
+
+        #command: --init-file /data/application/reservas.sql
+        command: --init-file /inicio/reservas.sql
+
+        environment:
+            MYSQL_DATABASE: reservas
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+        volumes:
+            #- ./dump:/docker-entrypoint-initdb.d
+            - ./dump/reservas.sql:/inicio/reservas.sql #/data/application/reservas.sql
+            - ./conf:/etc/mysql/conf.d
+            - persistent:/var/lib/mysql
+        networks:
+            - netapp
+        secrets:
+            - db_password
+            - db_root_password
+        
+    web:
+        build: .
+        ports: 
+            - "80:80"
+        volumes:
+            - ./web:/var/www/html
+        links:
+            - db
+        networks:
+            - netapp
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: root
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+        secrets:
+            - db_password
+            - db_root_password
+        networks:
+            - netapp
+    
+    grafana:
+        image: grafana/grafana-enterprise
+        links: 
+            - db
+        container_name: grafana
+        restart: unless-stopped
+        ports:
+            - "3000:3000"
+        volumes:
+            - grafana-storage:/var/lib/grafana
+        networks:
+            - netapp
+            
+secrets:
+    db_password:
+        file: ./secrets/db_password.txt
+    db_root_password:
+        file: ./secrets/db_root_password.txt
+
+volumes:
+    persistent:
+    grafana-storage:
+
+networks:
+    netapp:
