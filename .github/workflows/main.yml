@@ -37,10 +37,10 @@ jobs:
       - name: configure github pages
         uses: actions/configure-pages@v3
 
-      #- name: upload artifacts
-      #  uses: actions/upload-pages-artifact@v1
-      #  with: 
-      #    path: "."
+      - name: upload artifacts
+        uses: actions/upload-pages-artifact@v1
+        with: 
+          path: "."
 
       - name: deploy
         id: deployment
