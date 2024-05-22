@@ -22,7 +22,7 @@ jobs:
       id-token: write  
     
     environment:
-      name: production
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     
     runs-on: ubuntu-latest
@@ -37,11 +37,11 @@ jobs:
       - name: configure github pages
         uses: actions/configure-pages@v3
 
-      - name: upload artifacts
-        uses: actions/upload-pages-artifact@v1
-        with: 
-          path: "."
+      #- name: upload artifacts
+      #  uses: actions/upload-pages-artifact@v1
+      #  with: 
+      #    path: "../web/"
 
-      - name: deploy
-        id: deployment
-        uses: actions/deploy-pages@v1
+      #- name: deploy
+      #  id: deployment
+      #  uses: actions/deploy-pages@v1
