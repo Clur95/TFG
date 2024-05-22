@@ -40,8 +40,8 @@ jobs:
       #- name: upload artifacts
       #  uses: actions/upload-pages-artifact@v1
       #  with: 
-      #    path: "../web/"
+      #    path: "."
 
-      #- name: deploy
-      #  id: deployment
-      #  uses: actions/deploy-pages@v1
+      - name: deploy
+        id: deployment
+        uses: actions/deploy-pages@v1
