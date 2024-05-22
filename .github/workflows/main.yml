@@ -14,7 +14,12 @@ jobs:
 #################### Hasta aquí
   deploy:
 
-    needs: build 
+    needs: build
+
+    permissions:
+      contents: write
+      pages: write     
+      id-token: write  
     
     environment:
       name: production
@@ -26,6 +31,8 @@ jobs:
 
       - name: checkout repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: configure github pages
         uses: actions/configure-pages@v3
