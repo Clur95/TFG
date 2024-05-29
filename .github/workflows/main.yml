@@ -5,7 +5,7 @@ on: push
 jobs:
 
   dockerhub_push:
-  
+
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,7 +28,7 @@ jobs:
 
   deploy:
 
-    needs: build
+    needs: dockerhub_push
 
     permissions:
       contents: write
