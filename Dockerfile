@@ -5,8 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Utilizado en el código PHP de la página
 RUN docker-php-ext-install mysqli
-RUN apt-get update
-
 
 RUN apt-get update \
     && apt-get install -y sendmail libpng-dev \
