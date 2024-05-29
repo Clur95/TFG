@@ -24,7 +24,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: clur95/tfg:latest
+          tags: clur95/tfg
 
   deploy:
 
