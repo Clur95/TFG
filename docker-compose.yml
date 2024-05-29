@@ -24,6 +24,7 @@ services:
         
     web:
         build: .
+        image: clur95/mi_apache:latest
         ports: 
             - "80:80"
         restart: unless-stopped
