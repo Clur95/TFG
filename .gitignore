@@ -1,2 +1,2 @@
-# Ignore los secrets, en este caso los txt
+# Ignora los secrets (indica la ruta)
 /secrets
