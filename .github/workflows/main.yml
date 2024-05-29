@@ -11,7 +11,7 @@ jobs:
 
       - name: Construye la imagen
         run: docker compose up -d
-#################### Hasta aquí
+
   deploy:
 
     needs: build

@@ -1,35 +1,32 @@
-version: "3.1"
 services:
     db:
         image: mysql
         ports: 
             - "3306:3306"
-        #command: --default-authentication-plugin=mysql_native_password
 
-        #command: --init-file /data/application/reservas.sql
-        command: --init-file /inicio/reservas.sql
-#
+        command: --init-file /data/application/reservas.sql
+        restart: unless-stopped
         environment:
             MYSQL_DATABASE: reservas
-            MYSQL_PASSWORD: $${{ secrets.DB_PASSWORD }}
-            MYSQL_ROOT_PASSWORD: $${{ secrets.DB_ROOT_PASSWORD }}
-            #MYSQL_PASSWORD_FILE: /run/secrets/db_password
-            #MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+            #MYSQL_PASSWORD: $${{ secrets.DB_PASSWORD }}
+            #MYSQL_ROOT_PASSWORD: $${{ secrets.DB_ROOT_PASSWORD }}
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
         volumes:
-            #- ./dump:/docker-entrypoint-initdb.d
-            - ./dump/reservas.sql:/inicio/reservas.sql #/data/application/reservas.sql
+            - ./dump/reservas.sql:/data/application/reservas.sql
             - ./conf:/etc/mysql/conf.d
             - persistent:/var/lib/mysql
         networks:
             - netapp
-        #secrets:
-        #    - db_password
-        #    - db_root_password
+        secrets:
+            - db_password
+            - db_root_password
         
     web:
         build: .
         ports: 
             - "80:80"
+        restart: unless-stopped
         volumes:
             - ./web:/var/www/html
         links:
@@ -43,40 +40,67 @@ services:
             - db
         ports:
             - 8000:80
+        restart: unless-stopped
         environment:
             MYSQL_USER: root
-            MYSQL_PASSWORD: $${{ secrets.DB_PASSWORD }}
-            MYSQL_ROOT_PASSWORD: $${{ secrets.DB_ROOT_PASSWORD }}
-            #MYSQL_PASSWORD_FILE: /run/secrets/db_password
-            #MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-#        secrets:
-#            - db_password
-#            - db_root_password
+            #MYSQL_PASSWORD: $${{ secrets.DB_PASSWORD }}
+            #MYSQL_ROOT_PASSWORD: $${{ secrets.DB_ROOT_PASSWORD }}
+            MYSQL_PASSWORD_FILE: /run/secrets/db_password
+            MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+        secrets:
+            - db_password
+            - db_root_password
         networks:
             - netapp
     
-    grafana:
-        image: grafana/grafana-enterprise
-        links: 
-            - db
-        container_name: grafana
-        restart: unless-stopped
+    prometheus:
+        image: prom/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
         ports:
-            - "3000:3000"
+            - 9090:9090
+        restart: unless-stopped
         volumes:
-            - grafana-storage:/var/lib/grafana
+            - ./prometheus:/etc/prometheus
+            - prom_data:/prometheus
         networks:
             - netapp
-            
-#secrets:
-#    db_password:
-#        file: ./secrets/db_password.txt
-#    db_root_password:
-#        file: ./secrets/db_root_password.txt
+
+    grafana:
+        image: grafana/grafana
+        ports:
+            - 3000:3000
+        restart: unless-stopped
+        volumes:
+            - ./grafana:/etc/grafana/provisioning/datasources
+        networks:
+            - netapp
+    
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor
+        restart: unless-stopped
+        hostname: cadvisor
+        volumes: # ro -> Read-Only
+            - "/:/rootfs:ro"
+            - "/var/run:/var/run:ro"
+            - "/sys:/sys:ro"
+            - "/var/lib/docker/:/var/lib/docker:ro"
+            - "/dev/disk/:/dev/disk:ro"
+        ports:
+            - "8080:8080"
+        networks:
+            - netapp
+          
+secrets:
+    db_password:
+        file: ./secrets/db_password.txt
+    db_root_password:
+        file: ./secrets/db_root_password.txt
 
 volumes:
     persistent:
     grafana-storage:
+    prom_data:
 
 networks:
     netapp:
